@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stevens Institute of Technology - Finance Calculator</title>
+    <style>
+        body {
+   
+            font-family: 'Saira Condensed', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #800020; /* Burgundy red color */
+        }
+        .container {
+            border: 10px solid #800020; /* Burgundy red border */
+    padding: 20px; /* Add padding to avoid border touching content */
+    box-sizing: border-box;
+            width: 80%;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        input[type="number"], input[type="text"] {
+            padding: 10px;
+            width: 100%;
+            margin: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .result-item {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+        .formula-item {
+            font-size: 14px;
+            color: #777;
+        }
+        .input-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .input-row label {
+            width: 50%;
+        }
+        .input-row input {
+            width: 45%;
+        }
+        button {
+    background-color: #800020; /* Burgundy red color */
+    color: white;
+    border: 2px solid #800020; /* Burgundy red border */
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+
+button:hover {
+    background-color: #aa0022; /* Slightly lighter shade */
+    border: 2px solid #aa0022; /* Lighter burgundy border on hover */
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+     
+        <img src="https://cdn.freelogovectors.net/wp-content/uploads/2023/07/stevens_institute-of-technology-logo-freelogovectors.net_.png" alt="Stevens Logo" style="width: 150px; height: auto; margin-bottom: 20px; background-color: white; padding: 10px; border-radius: 5px; display: block; margin-left: auto; margin-right: auto;">
+
+        <h1>Finance Calculator for Stevens Institute of Technology</h1>
+     
+        
+        <div class="input-row">
+            <label for="gradRate">Expected Grad Rate in XMonths (%)</label>
+            <input type="number" id="gradRate" placeholder="Enter Percentage" step="0.01">
+        </div>
+        <div class="input-row">
+            <label for="attritionRate">Estimated Attrition Rate (%)</label>
+            <input type="number" id="attritionRate" placeholder="Enter Percentage" step="0.01">
+        </div>
+        <div class="input-row">
+            <label for="tuitionRate">Avg. Tuition Rate per Credit Hour ($)</label>
+            <input type="number" id="tuitionRate" placeholder="Enter Amount" step="0.01">
+        </div>
+        <div class="input-row">
+            <label for="cohortIntake">FYX X Intake (Cohort Intake)</label>
+            <input type="number" id="cohortIntake" placeholder="Enter Intake Number">
+        </div>
+        <div class="input-row">
+            <label for="creditHours">Avg. Credit Hours per Course</label>
+            <input type="number" id="creditHours" placeholder="Enter Credit Hours">
+        </div>
+        <div class="input-row">
+            <label for="courseOfferings">Course Offerings</label>
+            <input type="number" id="courseOfferings" placeholder="Enter Number of Courses">
+        </div>
+
+        <button onclick="calculate()">Calculate</button>
+
+        <div id="results" style="margin-top: 20px;">
+            <h3>Results:</h3>
+            <div class="result-item"><strong>Total Learners:</strong> <span id="totalLearners">0</span></div>
+            <div class="formula-item"><em>Formula: Total Learners = Cohort Intake * (1 - Attrition Rate) * (1 - Expected Grad Rate in XMonths)</em></div>
+
+            <div class="result-item"><strong>Tuition Revenue ($):</strong> <span id="tuitionRevenue">0</span></div>
+            <div class="formula-item"><em>Formula: Tuition Revenue = Total Learners * Avg Tuition Rate per Credit Hour * Credit Hours</em></div>
+
+            <div class="result-item"><strong>Lead Faculty Expense ($):</strong> <span id="leadFacultyExpense">0</span></div>
+            <div class="formula-item"><em>Formula: Lead Faculty Expense = Course Offerings * $25,000 per course</em></div>
+
+            <div class="result-item"><strong>Associate Faculty Expense ($):</strong> <span id="associateFacultyExpense">0</span></div>
+            <div class="formula-item"><em>Formula: Associate Faculty Expense = Course Offerings * $20,000 per course</em></div>
+
+            <div class="result-item"><strong>TA & Mentor Expense ($):</strong> <span id="taMentorExpense">0</span></div>
+            <div class="formula-item"><em>Formula: TA & Mentor Expense = (Total Learners / 60) * $35 per hour * 20 hours per week (Spring Semester)</em></div>
+
+            <div class="result-item"><strong>Program Manager Salary ($):</strong> <span id="programManagerSalary">0</span></div>
+            <div class="formula-item"><em>Formula: Program Manager Salary = $130,000 (Annual Salary)</em></div>
+
+            <div class="result-item"><strong>Student Success Staff Expense ($):</strong> <span id="studentSuccessStaffExpense">0</span></div>
+            <div class="formula-item"><em>Formula: Student Success Staff Expense = (Total Learners / 500) * $75,000 per staff</em></div>
+
+            <div class="result-item"><strong>Admissions Staff Expense ($):</strong> <span id="admissionsStaffExpense">0</span></div>
+            <div class="formula-item"><em>Formula: Admissions Staff Expense = (Total Learners / 750) * $85,000 per staff</em></div>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            // Get user input values
+            let gradRate = parseFloat(document.getElementById("gradRate").value) / 100;
+            let attritionRate = parseFloat(document.getElementById("attritionRate").value) / 100;
+            let tuitionRate = parseFloat(document.getElementById("tuitionRate").value);
+            let cohortIntake = parseInt(document.getElementById("cohortIntake").value);
+            let creditHours = parseInt(document.getElementById("creditHours").value);
+            let courseOfferings = parseInt(document.getElementById("courseOfferings").value);
+
+            // Calculate Total Learners
+            let totalLearners = cohortIntake * (1 - attritionRate) * (1 - gradRate);
+
+            // Calculate Tuition Revenue
+            let tuitionRevenue = totalLearners * tuitionRate * creditHours;
+
+            // Calculate Lead Faculty Expense
+            let leadFacultyExpense = courseOfferings * 25000;  // Assumed $25,000 per course
+
+            // Calculate Associate Faculty Expense
+            let associateFacultyExpense = courseOfferings * 20000;  // Assumed $20,000 per course
+
+            // Calculate TA & Mentor Expense
+            let taMentorExpense = (totalLearners / 60) * 35 * 20;  // Assumed $35 per hour for 20 hours per week in Spring
+
+            // Calculate Program Manager Salary
+            let programManagerSalary = 130000;  // Assumed annual salary
+
+            // Calculate Student Success Staff Expense
+            let studentSuccessStaffExpense = (totalLearners / 500) * 75000;  // Assumed $75,000 per staff member
+
+            // Calculate Admissions Staff Expense
+            let admissionsStaffExpense = (totalLearners / 750) * 85000;  // Assumed $85,000 per staff member
+
+            // Update the results
+            document.getElementById("totalLearners").innerText = totalLearners.toFixed(0);
+            document.getElementById("tuitionRevenue").innerText = tuitionRevenue.toFixed(2);
+            document.getElementById("leadFacultyExpense").innerText = leadFacultyExpense.toFixed(2);
+            document.getElementById("associateFacultyExpense").innerText = associateFacultyExpense.toFixed(2);
+            document.getElementById("taMentorExpense").innerText = taMentorExpense.toFixed(2);
+            document.getElementById("programManagerSalary").innerText = programManagerSalary.toFixed(2);
+            document.getElementById("studentSuccessStaffExpense").innerText = studentSuccessStaffExpense.toFixed(2);
+            document.getElementById("admissionsStaffExpense").innerText = admissionsStaffExpense.toFixed(2);
+        }
+    </script>
+</body>
+</html>
