@@ -16,33 +16,33 @@
     header img { height: 50px; }
     .default-frame {
       background-color: white;
-      padding: 10px 15px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
       color: black;
-      font-size: 14px;
-      min-width: 200px;
+      font-size: 15px;
+      max-width: 800px;
+      margin: 20px auto 0 auto;
     }
     .container { padding: 30px; max-width: 800px; margin: auto; }
     .section { margin-top: 30px; }
-    
-    /* Category selection area */
+
     .category-selector {
       padding: 10px;
       border: 2px solid #861F41;
       border-radius: 8px;
       background: white;
     }
-    
+
     .category-item {
       display: inline-block;
       margin: 5px;
     }
-    
+
     .category-checkbox {
-      display: none; /* Hide the actual checkbox */
+      display: none;
     }
-    
+
     .category-label {
       display: inline-block;
       padding: 8px 15px;
@@ -51,32 +51,12 @@
       cursor: pointer;
       font-size: 14px;
     }
-    
+
     .category-checkbox:checked + .category-label {
       background-color: #861F41;
       color: white;
     }
-    
-    /* Subcategory styling */
-    .subcategories {
-      margin-top: 10px;
-      padding: 10px;
-      background-color: #f9f9f9;
-      border-radius: 8px;
-      display: none;
-    }
-    
-    .subcategory-item {
-      margin: 5px 0;
-    }
-    
-    .subcategory-percentages {
-      display: inline-block;
-      margin-left: 10px;
-      color: #666;
-      font-size: 14px;
-    }
-    
+
     .tabs { margin-top: 20px; display: flex; }
     .tab {
       flex: 1; padding: 15px;
@@ -96,6 +76,8 @@
     input[type="number"] {
       padding: 10px; width: 100%;
       font-size: 16px; margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
     }
     .result, .breakdown {
       margin-top: 15px; font-size: 16px; color: #333;
@@ -104,70 +86,57 @@
       background-color: #f1f1f1;
       padding: 15px; border-radius: 8px;
     }
-    #amountSection { display: none; }
   </style>
 </head>
 <body>
 
 <header>
-
-    <div style="background-color: white; padding: 10px; display: inline-block;">
-      <img src="https://www.siecindia.com/images/university-logo/stevens.webp" alt="Stevens Logo" style="background-color: white; align-content: center;">
-    </div>
-    
-  <h1 style="color: white; ">Stevens Institute of Technology</h1>
-  <div class="default-frame" id="defaultFrame">
-    <div><strong>Conversion %:</strong>
-      <input type="number" id="conversion" value="50" style="width: 50px;">
-    </div>
-    <div><strong>Enrollment:</strong> <span id="enrollVal">0</span></div>
-    <div id="perCreditDisplay" style="display:none;">
-      <strong>Per Credit:</strong> 
-      <span id="perCreditVal"></span>
-    </div>
-    <div><strong>Tuition:</strong> <span id="tuitionVal">$0</span></div>
+  <div style="background-color: white; padding: 10px; display: inline-block;">
+    <img src="https://www.siecindia.com/images/university-logo/stevens.webp" alt="Stevens Logo">
   </div>
+  <h1 style="color: white;">Stevens Institute of Technology</h1>
 </header>
+
+<div class="default-frame" id="defaultFrame" style="border: 2px solid #861F41; float: right; margin: 20px;">
+  <h1 style="color: #861F41"><b>Default Values</b></h1>
+  <div><strong>Conversion %:</strong> <input type="number" id="conversion" value="50" style="width: 50px;"></div>
+  <div><strong>Enrollment:</strong> <span id="enrollVal">0</span></div>
+  <div><strong>Default Applicant Split:</strong><br>
+    Stevens Online (Retail): 14%<br>
+    &nbsp;&nbsp;→ Masters: 99% | Grad Cert: 1%<br>
+    Stevens Online (Corporate): 51%<br>
+    &nbsp;&nbsp;→ Masters: 77% | Grad Cert: 23%<br>
+    Noodle: 30%<br>
+    beacon: 5%</div>
+  <div><strong>Course Fees:</strong><br>
+    Masters: $1930<br>
+    Graduate Certificate: $1300</div>
+</div>
+
 
 <div class="container">
   <div class="section">
     <label>Categories:</label>
     <div class="category-selector">
       <div class="category-item">
-        <input type="checkbox" id="noodle" class="category-checkbox" value="Noodle" onchange="updateSelection('noodle')">
+        <input type="checkbox" id="select-all" class="category-checkbox" onchange="toggleSelectAll()">
+        <label for="select-all" class="category-label">Select All</label>
+      </div>
+      <div class="category-item">
+        <input type="checkbox" id="retail" class="category-checkbox" value="Retail" onchange="calculateBreakdown()">
+        <label for="retail" class="category-label">Stevens Online (Retail)</label>
+      </div>
+      <div class="category-item">
+        <input type="checkbox" id="corporate" class="category-checkbox" value="Corporate" onchange="calculateBreakdown()">
+        <label for="corporate" class="category-label">Stevens Online (Corporate)</label>
+      </div>
+      <div class="category-item">
+        <input type="checkbox" id="noodle" class="category-checkbox" value="Noodle" onchange="calculateBreakdown()">
         <label for="noodle" class="category-label">Noodle</label>
       </div>
       <div class="category-item">
-        <input type="checkbox" id="corporate" class="category-checkbox" value="Corporate" onchange="updateSelection('corporate')">
-        <label for="corporate" class="category-label">Corporate</label>
-      </div>
-      <div class="category-item">
-        <input type="checkbox" id="retail" class="category-checkbox" value="Retail" onchange="updateSelection('retail')">
-        <label for="retail" class="category-label">Retail</label>
-      </div>
-      <div class="category-item">
-        <input type="checkbox" id="becan" class="category-checkbox" value="Becan" onchange="updateSelection('becan')">
-        <label for="becan" class="category-label">Becan</label>
-      </div>
-      
-      <!-- Corporate Subcategories -->
-      <div id="corporate-subcategories" class="subcategories">
-        <div class="subcategory-item">
-          <span class="subcategory-percentages">Masters (77%): $1930/credit</span>
-        </div>
-        <div class="subcategory-item">
-          <span class="subcategory-percentages">Grad Certificate (23%): $1300/credit</span>
-        </div>
-      </div>
-      
-      <!-- Retail Subcategories -->
-      <div id="retail-subcategories" class="subcategories">
-        <div class="subcategory-item">
-          <span class="subcategory-percentages">Masters (99%): $1930/credit</span>
-        </div>
-        <div class="subcategory-item">
-          <span class="subcategory-percentages">Grad Certificate (1%): $1300/credit</span>
-        </div>
+        <input type="checkbox" id="beacon" class="category-checkbox" value="beacon" onchange="calculateBreakdown()">
+        <label for="beacon" class="category-label">beacon</label>
       </div>
     </div>
   </div>
@@ -181,18 +150,13 @@
     <div class="tab-content">
       <div id="content-apps">
         <label>Enter Number of Applications:</label>
-        <input type="number" id="applications" oninput="calculateEnrollment()">
+        <input type="number" id="applications" oninput="calculateFromApps()">
       </div>
       <div id="content-enroll" style="display: none;">
         <label>Enter Enrollment Number:</label>
-        <input type="number" id="enrollment" oninput="calculateTuition()">
+        <input type="number" id="enrollment" oninput="calculateBreakdown()">
       </div>
     </div>
-  </div>
-
-  <div class="section" id="amountSection">
-    <label>Enter Total Amount (used for multiple categories):</label>
-    <input type="number" id="userAmount" oninput="calculateTuition()">
   </div>
 
   <div class="result" id="result-box"></div>
@@ -200,63 +164,22 @@
 </div>
 
 <script>
-  const mastersCreditRate = 1930;
-  const gradCertCreditRate = 1300;
-  
-  const ratios = {
-    Retail: 0.14, 
-    Corporate: 0.05, 
-    Noodle: 0.30, 
-    Becan: 0.05
+  const defaultRatios = {
+    Retail: 0.14,
+    Corporate: 0.51,
+    Noodle: 0.30,
+    beacon: 0.05
   };
-  
-  // Subcategory breakdowns
-  const subcategories = {
-    Corporate: {
-      Masters: 0.77,
-      GradCertificate: 0.23
-    },
-    Retail: {
-      Masters: 0.99,
-      GradCertificate: 0.01
-    },
-    Noodle: {
-      Masters: 1.0,
-      GradCertificate: 0.0
-    },
-    Becan: {
-      Masters: 1.0,
-      GradCertificate: 0.0
-    }
+
+  const subRatios = {
+    Retail: { Masters: 0.99, Grad: 0.01 },
+    Corporate: { Masters: 0.77, Grad: 0.23 },
+    Noodle: { Masters: 1.0, Grad: 0.0 },
+    beacon: { Masters: 1.0, Grad: 0.0 }
   };
-  
-  function updateSelection(categoryId) {
-    // Hide all subcategories first
-    document.getElementById('corporate-subcategories').style.display = 'none';
-    document.getElementById('retail-subcategories').style.display = 'none';
-    
-    // Check which categories are selected
-    const selectedCategories = getSelectedCategories();
-    
-    // Display subcategories if applicable
-    if (selectedCategories.includes('Corporate') && selectedCategories.length === 1) {
-      document.getElementById('corporate-subcategories').style.display = 'block';
-    }
-    
-    if (selectedCategories.includes('Retail') && selectedCategories.length === 1) {
-      document.getElementById('retail-subcategories').style.display = 'block';
-    }
-    
-    // Update calculation UI
-    document.getElementById("perCreditDisplay").style.display = selectedCategories.length === 1 ? "block" : "none";
-    document.getElementById("amountSection").style.display = selectedCategories.length > 1 ? "block" : "none";
-    
-    calculateTuition();
-  }
-  
-  function getSelectedCategories() {
-    return Array.from(document.querySelectorAll('.category-checkbox:checked')).map(cb => cb.value);
-  }
+
+  const masterFee = 1930;
+  const gradFee = 1300;
 
   function switchTab(type) {
     document.getElementById("tab-apps").classList.remove("active");
@@ -273,118 +196,65 @@
     }
   }
 
-  function calculateEnrollment() {
+  function toggleSelectAll() {
+    const selectAll = document.getElementById("select-all").checked;
+    document.querySelectorAll('.category-checkbox:not(#select-all)').forEach(cb => {
+      cb.checked = selectAll;
+    });
+    calculateBreakdown();
+  }
+
+  function calculateFromApps() {
     const apps = parseFloat(document.getElementById("applications").value);
     const conversion = parseFloat(document.getElementById("conversion").value);
     if (!isNaN(apps) && !isNaN(conversion)) {
       const enrollment = (apps * conversion) / 100;
       document.getElementById("enrollment").value = enrollment.toFixed(2);
+      document.getElementById("enrollVal").textContent = enrollment.toFixed(2);
+      calculateBreakdown();
     }
-    calculateTuition();
-  }
-  
-  // Function to calculate tuition for a single category with subcategory breakdown
-  function calculateCategoryTuition(category, enrollment) {
-    let categoryBreakdown = '';
-    let categoryTuition = 0;
-    
-    // Get subcategory distribution for this category
-    const mastersPortion = subcategories[category].Masters;
-    const gradCertPortion = subcategories[category].GradCertificate;
-    
-    // Calculate enrollment for each subcategory
-    const mastersEnrollment = enrollment * mastersPortion;
-    const gradCertEnrollment = enrollment * gradCertPortion;
-    
-    // Calculate tuition for each subcategory
-    const mastersTuition = mastersEnrollment * mastersCreditRate;
-    const gradCertTuition = gradCertEnrollment * gradCertCreditRate;
-    
-    // Total tuition for this category
-    categoryTuition = mastersTuition + gradCertTuition;
-    
-    // Create breakdown string
-    categoryBreakdown = `${category}:<br>`;
-    
-    if (mastersPortion > 0) {
-      categoryBreakdown += `Masters (${(mastersPortion*100).toFixed(0)}%): ${mastersEnrollment.toFixed(2)} x $${mastersCreditRate} = $${mastersTuition.toFixed(2)}<br>`;
-    }
-    
-    if (gradCertPortion > 0) {
-      categoryBreakdown += `Grad Certificate (${(gradCertPortion*100).toFixed(0)}%): ${gradCertEnrollment.toFixed(2)} x $${gradCertCreditRate} = $${gradCertTuition.toFixed(2)}<br>`;
-    }
-    
-    categoryBreakdown += `<strong>Category Total: $${categoryTuition.toFixed(2)}</strong><br><br>`;
-    
-    return {
-      tuition: categoryTuition,
-      breakdown: categoryBreakdown
-    };
   }
 
-  function calculateTuition() {
-    const selected = getSelectedCategories();
-    const enrollment = parseFloat(document.getElementById("enrollment").value) || 0;
-    document.getElementById("enrollVal").textContent = enrollment;
+  function calculateBreakdown() {
+    const enrollment = parseFloat(document.getElementById("enrollment").value);
+    if (isNaN(enrollment)) return;
 
-    let tuition = 0;
-    let breakdown = "";
-    
-    if (selected.length === 1) {
-      // For single category selection
-      const category = selected[0];
-      const result = calculateCategoryTuition(category, enrollment);
-      
-      tuition = result.tuition;
-      breakdown = result.breakdown;
-      
-      // Update per credit display based on category
-      if (category === "Corporate") {
-        document.getElementById("perCreditVal").innerHTML = `$1930 (Masters - 77%)<br>$1300 (Grad Cert - 23%)`;
-      } 
-      else if (category === "Retail") {
-        document.getElementById("perCreditVal").innerHTML = `$1930 (Masters - 99%)<br>$1300 (Grad Cert - 1%)`;
-      }
-      else {
-        document.getElementById("perCreditVal").textContent = `$${mastersCreditRate}`;
-      }
-    } else if (selected.length > 1) {
-      // For multiple categories
-      const amount = parseFloat(document.getElementById("userAmount").value) || 0;
-      tuition = amount;
-      breakdown = `User-entered tuition: $${amount.toFixed(2)}<br><br>`;
-      
-      // Calculate weighted enrollment for each category
-      selected.forEach(cat => {
-        const share = ratios[cat] || 0;
-        const categoryAmount = amount * share;
-        const categoryEnrollment = categoryAmount / mastersCreditRate; // Approximate enrollment
-        
-        breakdown += `${cat} (${(share*100).toFixed(0)}%): $${categoryAmount.toFixed(2)}<br>`;
-        
-        // Only show subcategory breakdown for Corporate and Retail
-        if (cat === "Corporate" || cat === "Retail") {
-          // Calculate subcategory distribution
-          const mastersPortion = subcategories[cat].Masters;
-          const gradCertPortion = subcategories[cat].GradCertificate;
-          
-          // Calculate how the amount is split between subcategories
-          const mastersAmount = categoryAmount * mastersPortion;
-          const gradCertAmount = categoryAmount * gradCertPortion;
-          
-          // Show the subcategory breakdown
-          breakdown += `  - Masters (${(mastersPortion*100).toFixed(0)}%): $${mastersAmount.toFixed(2)}<br>`;
-          breakdown += `  - Grad Certificate (${(gradCertPortion*100).toFixed(0)}%): $${gradCertAmount.toFixed(2)}<br>`;
-        }
-        
-        breakdown += `<br>`;
-      });
-    }
+    document.getElementById("enrollVal").textContent = enrollment.toFixed(2);
+    const selected = Array.from(document.querySelectorAll('.category-checkbox:checked')).map(cb => cb.value);
+    const categories = selected.includes("select-all") || selected.length === 0 ? Object.keys(defaultRatios) : selected;
 
-    document.getElementById("tuitionVal").textContent = `$${Math.round(tuition)}`;
-    document.getElementById("result-box").textContent = `Estimated Tuition: $${Math.round(tuition)}`;
+    let totalTuition = 0;
+    let breakdown = "<strong>Enrollment Distribution:</strong><br><br>";
+
+    categories.forEach(category => {
+      const share = defaultRatios[category] || 0;
+      const catEnrollment = enrollment * share;
+      const masters = catEnrollment * (subRatios[category]?.Masters || 0);
+      const grads = catEnrollment * (subRatios[category]?.Grad || 0);
+      const masterTuition = masters * masterFee;
+      const gradTuition = grads * gradFee;
+      const catTuition = masterTuition + gradTuition;
+
+      if (catEnrollment > 0) {
+        totalTuition += catTuition;
+
+        let displayName = category;
+        if (category === "Retail") displayName = "Stevens Online (Retail)";
+        if (category === "Corporate") displayName = "Stevens Online (Corporate)";
+
+        breakdown += `${displayName}: ${(share * 100).toFixed(0)}% of ${enrollment} = ${catEnrollment.toFixed(2)}<br>`;
+        if (masters > 0) breakdown += `&nbsp;&nbsp;→ Masters: ${masters.toFixed(2)} × $${masterFee} = $${masterTuition.toFixed(2)}<br>`;
+        if (grads > 0) breakdown += `&nbsp;&nbsp;→ Grad Cert: ${grads.toFixed(2)} × $${gradFee} = $${gradTuition.toFixed(2)}<br>`;
+        breakdown += `<strong style="color: #861F41">&nbsp;&nbsp;Total: $${catTuition.toFixed(2)}</strong><br><br>`;
+      }
+    });
+
+    breakdown += `<strong style="color: #861F41" >Total Estimated Tuition: $${totalTuition.toFixed(2)}</strong>`;
+
     document.getElementById("tuition-breakdown").innerHTML = breakdown;
+    document.getElementById("result-box").textContent = `Estimated Enrollment: ${enrollment.toFixed(2)}`;
   }
 </script>
+
 </body>
 </html>
