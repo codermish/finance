@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stevens Enrollment Calculator</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background-color: #f9f9f9; }
+    header {
+      background-color: #861F41;
+      color: white;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header img { height: 50px; }
+    .default-frame {
+      background-color: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      color: black;
+      font-size: 15px;
+      max-width: 800px;
+      margin: 20px auto 0 auto;
+    }
+    .container { padding: 30px; max-width: 800px; margin: auto; }
+    .section { margin-top: 30px; }
+
+    .category-selector {
+      padding: 10px;
+      border: 2px solid #861F41;
+      border-radius: 8px;
+      background: white;
+    }
+
+    .category-item {
+      display: inline-block;
+      margin: 5px;
+    }
+
+    .category-checkbox {
+      display: none;
+    }
+
+    .category-label {
+      display: inline-block;
+      padding: 8px 15px;
+      background-color: #f1f1f1;
+      border-radius: 15px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .category-checkbox:checked + .category-label {
+      background-color: #861F41;
+      color: white;
+    }
+
+    .tabs { margin-top: 20px; display: flex; }
+    .tab {
+      flex: 1; padding: 15px;
+      text-align: center; cursor: pointer;
+      background-color: #ccc;
+      margin-right: 5px; border-radius: 5px 5px 0 0;
+      font-weight: bold;
+    }
+    .tab.active {
+      background-color: #861F41; color: white;
+    }
+    .tab-content {
+      border: 2px solid #861F41;
+      border-radius: 0 0 10px 10px;
+      padding: 20px; background: white;
+    }
+    input[type="number"] {
+      padding: 10px; width: 100%;
+      font-size: 16px; margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .result, .breakdown {
+      margin-top: 15px; font-size: 16px; color: #333;
+    }
+    .breakdown {
+      background-color: #f1f1f1;
+      padding: 15px; border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div style="background-color: white; padding: 10px; display: inline-block;">
+    <img src="https://www.siecindia.com/images/university-logo/stevens.webp" alt="Stevens Logo">
+  </div>
+  <h1 style="color: white;">Stevens Institute of Technology</h1>
+</header>
+
+<div class="default-frame" id="defaultFrame" style="border: 2px solid #861F41; float: right; margin: 20px;">
+  <h1 style="color: #861F41"><b>Default Values</b></h1>
+  <div><strong>Conversion %:</strong> <input type="number" id="conversion" value="50" style="width: 50px;"></div>
+  <div><strong>Enrollment:</strong> <span id="enrollVal">0</span></div>
+  <div><strong>Default Applicant Split:</strong><br>
+    Stevens Online (Retail): 14%<br>
+    &nbsp;&nbsp;→ Masters: 99% | Grad Cert: 1%<br>
+    Stevens Online (Corporate): 51%<br>
+    &nbsp;&nbsp;→ Masters: 77% | Grad Cert: 23%<br>
+    Noodle: 30%<br>
+    beacon: 5%</div>
+  <div><strong>Course Fees:</strong><br>
+    Masters: $1930<br>
+    Graduate Certificate: $1300</div>
+</div>
+
+
+<div class="container">
+  <div class="section">
+    <label>Categories:</label>
+    <div class="category-selector">
+      <div class="category-item">
+        <input type="checkbox" id="select-all" class="category-checkbox" onchange="toggleSelectAll()">
+        <label for="select-all" class="category-label">Select All</label>
+      </div>
+      <div class="category-item">
+        <input type="checkbox" id="retail" class="category-checkbox" value="Retail" onchange="calculateBreakdown()">
+        <label for="retail" class="category-label">Stevens Online (Retail)</label>
+      </div>
+      <div class="category-item">
+        <input type="checkbox" id="corporate" class="category-checkbox" value="Corporate" onchange="calculateBreakdown()">
+        <label for="corporate" class="category-label">Stevens Online (Corporate)</label>
+      </div>
+      <div class="category-item">
+        <input type="checkbox" id="noodle" class="category-checkbox" value="Noodle" onchange="calculateBreakdown()">
+        <label for="noodle" class="category-label">Noodle</label>
+      </div>
+      <div class="category-item">
+        <input type="checkbox" id="beacon" class="category-checkbox" value="beacon" onchange="calculateBreakdown()">
+        <label for="beacon" class="category-label">beacon</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <label>Choose Input Type:</label>
+    <div class="tabs">
+      <div class="tab active" id="tab-apps" onclick="switchTab('apps')">No. of Applications</div>
+      <div class="tab" id="tab-enroll" onclick="switchTab('enroll')">Enrollment No.</div>
+    </div>
+    <div class="tab-content">
+      <div id="content-apps">
+        <label>Enter Number of Applications:</label>
+        <input type="number" id="applications" oninput="calculateFromApps()">
+      </div>
+      <div id="content-enroll" style="display: none;">
+        <label>Enter Enrollment Number:</label>
+        <input type="number" id="enrollment" oninput="calculateBreakdown()">
+      </div>
+    </div>
+  </div>
+
+  <div class="result" id="result-box"></div>
+  <div class="breakdown" id="tuition-breakdown"></div>
+</div>
+
+<script>
+  const defaultRatios = {
+    Retail: 0.14,
+    Corporate: 0.51,
+    Noodle: 0.30,
+    beacon: 0.05
+  };
+
+  const subRatios = {
+    Retail: { Masters: 0.99, Grad: 0.01 },
+    Corporate: { Masters: 0.77, Grad: 0.23 },
+    Noodle: { Masters: 1.0, Grad: 0.0 },
+    beacon: { Masters: 1.0, Grad: 0.0 }
+  };
+
+  const masterFee = 1930;
+  const gradFee = 1300;
+
+  function switchTab(type) {
+    document.getElementById("tab-apps").classList.remove("active");
+    document.getElementById("tab-enroll").classList.remove("active");
+    document.getElementById("content-apps").style.display = "none";
+    document.getElementById("content-enroll").style.display = "none";
+
+    if (type === 'apps') {
+      document.getElementById("tab-apps").classList.add("active");
+      document.getElementById("content-apps").style.display = "block";
+    } else {
+      document.getElementById("tab-enroll").classList.add("active");
+      document.getElementById("content-enroll").style.display = "block";
+    }
+  }
+
+  function toggleSelectAll() {
+    const selectAll = document.getElementById("select-all").checked;
+    document.querySelectorAll('.category-checkbox:not(#select-all)').forEach(cb => {
+      cb.checked = selectAll;
+    });
+    calculateBreakdown();
+  }
+
+  function calculateFromApps() {
+    const apps = parseFloat(document.getElementById("applications").value);
+    const conversion = parseFloat(document.getElementById("conversion").value);
+    if (!isNaN(apps) && !isNaN(conversion)) {
+      const enrollment = (apps * conversion) / 100;
+      document.getElementById("enrollment").value = enrollment.toFixed(2);
+      document.getElementById("enrollVal").textContent = enrollment.toFixed(2);
+      calculateBreakdown();
+    }
+  }
+
+  function calculateBreakdown() {
+    const enrollment = parseFloat(document.getElementById("enrollment").value);
+    if (isNaN(enrollment)) return;
+
+    document.getElementById("enrollVal").textContent = enrollment.toFixed(2);
+    const selected = Array.from(document.querySelectorAll('.category-checkbox:checked')).map(cb => cb.value);
+    const categories = selected.includes("select-all") || selected.length === 0 ? Object.keys(defaultRatios) : selected;
+
+    let totalTuition = 0;
+    let breakdown = "<strong>Enrollment Distribution:</strong><br><br>";
+
+    categories.forEach(category => {
+      const share = defaultRatios[category] || 0;
+      const catEnrollment = enrollment * share;
+      const masters = catEnrollment * (subRatios[category]?.Masters || 0);
+      const grads = catEnrollment * (subRatios[category]?.Grad || 0);
+      const masterTuition = masters * masterFee;
+      const gradTuition = grads * gradFee;
+      const catTuition = masterTuition + gradTuition;
+
+      if (catEnrollment > 0) {
+        totalTuition += catTuition;
+
+        let displayName = category;
+        if (category === "Retail") displayName = "Stevens Online (Retail)";
+        if (category === "Corporate") displayName = "Stevens Online (Corporate)";
+
+        breakdown += `${displayName}: ${(share * 100).toFixed(0)}% of ${enrollment} = ${catEnrollment.toFixed(2)}<br>`;
+        if (masters > 0) breakdown += `&nbsp;&nbsp;→ Masters: ${masters.toFixed(2)} × $${masterFee} = $${masterTuition.toFixed(2)}<br>`;
+        if (grads > 0) breakdown += `&nbsp;&nbsp;→ Grad Cert: ${grads.toFixed(2)} × $${gradFee} = $${gradTuition.toFixed(2)}<br>`;
+        breakdown += `<strong style="color: #861F41">&nbsp;&nbsp;Total: $${catTuition.toFixed(2)}</strong><br><br>`;
+      }
+    });
+
+    breakdown += `<strong style="color: #861F41" >Total Estimated Tuition: $${totalTuition.toFixed(2)}</strong>`;
+
+    document.getElementById("tuition-breakdown").innerHTML = breakdown;
+    document.getElementById("result-box").textContent = `Estimated Enrollment: ${enrollment.toFixed(2)}`;
+  }
+</script>
+
+</body>
+</html>
