@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Financial Enrollment Calculator</title>
+  <style>
+    @font-face {
+      font-family: 'Stevens Sans Light';
+      src: local('Stevens Sans Light'), url('https://fonts.cdnfonts.com/s/22605/StevensSansWeb-Light.woff') format('woff');
+    }
+
+    body {
+      background-color: #811E2D; /* Burgundy Red */
+      font-family: 'Stevens Sans Light', sans-serif;
+      color: white;
+      padding: 2rem;
+      max-width: 700px;
+      margin: auto;
+      border: 5px solid grey; /* Grey border around the entire page */
+      border-radius: 10px; /* Optional: for rounded corners */
+    }
+
+    .header {
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid white;
+      padding-bottom: 0.5rem;
+    }
+
+    /* Styling the logo container with a white background and a burgundy border */
+    .logo-container {
+      background-color: white;
+      display: inline-block;
+      padding: 10px;
+      border-radius: 10px;
+      border: 3px solid #811E2D; /* Burgundy border */
+      margin-bottom: 1rem;
+      text-align: center; /* Centers the content inside the container */
+    }
+
+    /* Centering the logo */
+    .logo {
+      max-width: 150px;
+      display: block;
+      margin: 0 auto; /* Centering the logo horizontally */
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    label, input, button {
+      display: block;
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+
+    input, button {
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: white;
+      color: #811E2D;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .result {
+      margin-top: 2rem;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    ul {
+      padding-left: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Logo Container with White Background and Burgundy Border -->
+  <div class="logo-container">
+
+    <img src="https://cdn.freebiesupply.com/logos/large/2x/stevens-institute-of-technology-logo-png-transparent.png" alt="Stevens Institute of Technology Logo" class="logo">
+  </div>
+
+  <div class="header">Financial Template</div>
+
+  <h1>Enrollment and Amount Distribution Calculator</h1>
+
+  <!-- Input for Number of Applications -->
+  <label for="numApplications">Enter Total Number of Applications:</label>
+  <input type="number" id="numApplications" placeholder="e.g., 10000"/>
+
+  <!-- Input for Enrollment Percentage -->
+  <label for="enrollmentPercentage">Enter Enrollment Percentage (%):</label>
+  <input type="number" id="enrollmentPercentage" placeholder="e.g., 80"/>
+
+  <!-- Button to calculate enrollments -->
+  <button onclick="calculateEnrollments()">Calculate Enrollments</button>
+
+  <!-- Display Enrollments and Amount Inputs -->
+  <div class="result" id="enrollmentsResult" style="display: none;">
+    <h3>Enrollment Distribution</h3>
+    <p id="noodleEnrollments"></p>
+    <p id="corpEnrollments"></p>
+    <p id="retailEnrollments"></p>
+
+    <!-- Input for Total Amount -->
+    <label for="totalAmount">Enter Total Amount ($):</label>
+    <input type="number" id="totalAmount" placeholder="e.g., 1000"/>
+
+    <button onclick="distributeAmount()">Calculate Distribution</button>
+  </div>
+
+  <!-- Display Final Calculated Amount -->
+  <div class="result" id="finalResult" style="display: none;">
+    <h3>Final Amount Distribution</h3>
+    <p id="noodleAmount"></p>
+    <p id="corpAmount"></p>
+    <p id="retailAmount"></p>
+    <p><strong>Total Amount:</strong> $<span id="grandTotal"></span></p>
+  </div>
+
+  <script>
+    let totalEnrollments = 0;
+    let noodleEnrollments = 0;
+    let corpEnrollments = 0;
+    let retailEnrollments = 0;
+
+    function calculateEnrollments() {
+      const numApplications = parseInt(document.getElementById('numApplications').value);
+      const enrollmentPercentage = parseFloat(document.getElementById('enrollmentPercentage').value);
+
+      if (isNaN(numApplications) || numApplications <= 0 || isNaN(enrollmentPercentage) || enrollmentPercentage <= 0 || enrollmentPercentage > 100) {
+        alert("Please enter valid inputs.");
+        return;
+      }
+
+      // Calculate total enrollments based on percentage
+      totalEnrollments = Math.round((enrollmentPercentage / 100) * numApplications);
+
+      // Enrollment distribution ratio 1:2:2 for Noodle, Corp, Retail
+      const ratioSum = 1 + 2 + 2;
+      noodleEnrollments = Math.round((1 / ratioSum) * totalEnrollments);
+      corpEnrollments = Math.round((2 / ratioSum) * totalEnrollments);
+      retailEnrollments = totalEnrollments - noodleEnrollments - corpEnrollments;
+
+      // Display enrollments and show the next input for amount
+      document.getElementById('noodleEnrollments').textContent = `Noodle: ${noodleEnrollments} people`;
+      document.getElementById('corpEnrollments').textContent = `Corp: ${corpEnrollments} people`;
+      document.getElementById('retailEnrollments').textContent = `Retail: ${retailEnrollments} people`;
+
+      // Show the next input section
+      document.getElementById('enrollmentsResult').style.display = 'block';
+    }
+
+    function distributeAmount() {
+      const totalAmount = parseFloat(document.getElementById('totalAmount').value);
+
+      if (isNaN(totalAmount) || totalAmount <= 0) {
+        alert("Please enter a valid amount.");
+        return;
+      }
+
+      // Amount distribution ratio 5:3:4 for Noodle, Corp, Retail
+      const amountRatio = { noodle: 5, corp: 3, retail: 4 };
+      const amountRatioSum = amountRatio.noodle + amountRatio.corp + amountRatio.retail;
+
+      // Calculate amount distribution based on the 5:3:4 ratio
+      const noodleAmount = (amountRatio.noodle) * totalAmount;
+      const corpAmount = (amountRatio.corp) * totalAmount;
+      const retailAmount = (amountRatio.retail) * totalAmount;
+
+      // Multiply with enrollments for final totals
+      const noodleTotal = noodleAmount * noodleEnrollments;
+      const corpTotal = corpAmount * corpEnrollments;
+      const retailTotal = retailAmount * retailEnrollments;
+
+      // Final grand total
+      const grandTotal = noodleTotal + corpTotal + retailTotal;
+
+      // Display the final amounts
+      document.getElementById('noodleAmount').textContent = `Noodle: $${noodleAmount.toFixed(2)} per person × ${noodleEnrollments} people = $${noodleTotal.toFixed(2)}`;
+      document.getElementById('corpAmount').textContent = `Corp: $${corpAmount.toFixed(2)} per person × ${corpEnrollments} people = $${corpTotal.toFixed(2)}`;
+      document.getElementById('retailAmount').textContent = `Retail: $${retailAmount.toFixed(2)} per person × ${retailEnrollments} people = $${retailTotal.toFixed(2)}`;
+      document.getElementById('grandTotal').textContent = grandTotal.toFixed(2);
+
+      // Show the final result section
+      document.getElementById('finalResult').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
