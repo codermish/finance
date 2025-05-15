@@ -61,6 +61,11 @@ st.markdown("""
 st.markdown("""
   <div class="logo-container">
         <img src="https://images.ctfassets.net/mviowpldu823/6Kt25rWq7psmWbhC9fvwDZ/120266db4c7fc6fcd36064a736417041/03-Wordmark-watermark__1_.png" width="250">
+
+
+        <img src="https://codermish.github.io/finance/cpe-logo.jpg" width="250">
+
+        
     </div>
 <div class="banner" style="text-align: center;">
         <h1 class="banner-title" style="margin-top: 10px;">Financial Forecast Dashboard</h1>
