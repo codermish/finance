@@ -65,7 +65,7 @@ st.markdown("""
 </div>
     <h1 class="banner-title">Financial Forecast Dashboard</h1>
 
-    </div>
+  
 </div>
 """, unsafe_allow_html=True)
 
