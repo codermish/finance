@@ -63,10 +63,7 @@ st.markdown("""
         <img src="https://images.ctfassets.net/mviowpldu823/6Kt25rWq7psmWbhC9fvwDZ/120266db4c7fc6fcd36064a736417041/03-Wordmark-watermark__1_.png" width="250">
     </div>
 <div class="banner" style="text-align: center;">
-  
-    <div>
         <h1 class="banner-title" style="margin-top: 10px;">Financial Forecast Dashboard</h1>
-    </div>
 </div>
 """, unsafe_allow_html=True)
 
