@@ -149,7 +149,7 @@ cost_df = pd.DataFrame()
 cost_df['Term'] = term_labels
 cost_df['Faculty'] = revenue_df['Courses'] * faculty_cost
 cost_df['TA'] = ((revenue_df['Students'] / ta_ratio).apply(lambda x: int(x + 1)) * ta_rate * ta_hours * weeks_term)
-fall1_value = course_dev_cost * total_courses
+fall1_value = (course_dev_cost * total_courses)/2
 cost_df['Course Dev'] = [fall1_value if i == 0 else fall1_value * 0.2 for i in range(len(cost_df))]
 cost_df['Variable OH'] = revenue_df['Students'] * variable_overhead
 cost_df['Fixed OH'] = fixed_overhead
