@@ -61,8 +61,9 @@ st.markdown("""
 st.markdown("""
 <div class="banner">
     <div class="logo-container">
-        <img src="https://images.ctfassets.net/mviowpldu823/6Kt25rWq7psmWbhC9fvwDZ/120266db4c7fc6fcd36064a736417041/03-Wordmark-watermark__1_.png" width="150" height="auto">
+        <img src="https://images.ctfassets.net/mviowpldu823/6Kt25rWq7psmWbhC9fvwDZ/120266db4c7fc6fcd36064a736417041/03-Wordmark-watermark__1_.png" width="250" height="auto">
 </div>
+<br>
     <h1 class="banner-title">Financial Forecast Dashboard</h1>
 
   
