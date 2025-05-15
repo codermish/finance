@@ -146,7 +146,7 @@ revenue_df['Total Revenue'] = revenue_df['Students'] * tuition * avg_credits
 # ---------------------- Cost Calculation ----------------------
 cost_df = pd.DataFrame()
 cost_df['Term'] = term_labels
-cost_df['Faculty'] = (revenue_df['Students'] / credits_per_course) * faculty_cost
+cost_df['Faculty'] = (revenue_df['Students'] / 1000).apply(np.ceil) * faculty_cost
 cost_df['TA'] = ((revenue_df['Students'] / ta_ratio).apply(lambda x: int(x + 1)) * ta_rate * ta_hours * weeks_term)
 cost_df['Course Dev'] = [course_dev_cost if i in [0, 2, 4] else 0 for i in range(10)]
 cost_df['Variable OH'] = revenue_df['Students'] * variable_overhead
