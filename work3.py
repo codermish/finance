@@ -19,7 +19,7 @@ st.markdown("""
     .stTabs [data-baseweb="tab"]:hover {
         background-color: #A52A2A !important;
         color: white !important;
-    }
+    }X
     .stTabs [aria-selected="true"] {
         background-color: #4B0011 !important;
         color: white !important;
@@ -59,16 +59,16 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.markdown("""
-<div class="banner">
+<div class="banner" style="text-align: center;">
     <div class="logo-container">
-        <img src="https://images.ctfassets.net/mviowpldu823/6Kt25rWq7psmWbhC9fvwDZ/120266db4c7fc6fcd36064a736417041/03-Wordmark-watermark__1_.png" width="250" height="auto">
-</div>
-<br>
-    <h1 class="banner-title">Financial Forecast Dashboard</h1>
-
-  
+        <img src="https://images.ctfassets.net/mviowpldu823/6Kt25rWq7psmWbhC9fvwDZ/120266db4c7fc6fcd36064a736417041/03-Wordmark-watermark__1_.png" width="250">
+    </div>
+    <div>
+        <h1 class="banner-title" style="margin-top: 10px;">Financial Forecast Dashboard</h1>
+    </div>
 </div>
 """, unsafe_allow_html=True)
+
 
 # ---------------------- Sidebar Inputs ----------------------
 st.sidebar.markdown("<h2 style='color:#800020;'>📋 Input Parameters</h2>", unsafe_allow_html=True)
