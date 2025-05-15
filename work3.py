@@ -25,6 +25,20 @@ st.markdown("""
         color: white !important;
         font-weight: 700;
     }
+    .banner {
+    /* existing styles preserved */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.logo-container {
+    margin-right: 20px;
+}
+.logo-img {
+    height: 60px;
+    max-width: 300px;
+    object-fit: contain;
+}
     .main { background-color: #f8f9fa; }
     .banner {
         background-color: #800020;
@@ -46,7 +60,10 @@ st.markdown("""
 
 st.markdown("""
 <div class="banner">
-    <h1 class="banner-title"> Financial Forecast Dashboard</h1>
+    <div class="logo-container">
+        <img src="https://images.ctfassets.net/mviowpldu823/6Kt25rWq7psmWbhC9fvwDZ/120266db4c7fc6fcd36064a736417041/03-Wordmark-watermark__1_.png" class="logo-img">
+    </div>
+    <h1 class="banner-title">Financial Forecast Dashboard</h1>
 </div>
 """, unsafe_allow_html=True)
 
