@@ -59,13 +59,12 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.markdown("""
-<div style="text-align: center; margin-bottom: 1rem;">
-    <div style="display: inline-block; background-color: white; padding: 10px 20px; border-radius: 10px;">
-        <img src="https://codermish.github.io/finance/cpe-logo.jpg" width="150">
-    </div>
-</div>
+
 
 <div class="banner" style="text-align: center;">
+    <div style="display: inline-block; background-color: white; padding: 10px 20px; border-radius: 10px;">
+        <img src="https://codermish.github.io/finance/cpe-logo.jpg" width="150">
+</div>
     <h1 class="banner-title" style="margin-top: 10px;">Financial Forecast Dashboard</h1>
 </div>
 """, unsafe_allow_html=True)
