@@ -60,7 +60,7 @@ st.markdown("""
 
 st.markdown("""
 
-<div class="banner" style="text-align: center;">
+<div class="banner">
 <div class ="logo-container">
   <div style="text-align: center;">
     <img src="https://codermish.github.io/finance/cpe-logo.jpg" width="250">
