@@ -61,7 +61,7 @@ st.markdown("""
 st.markdown("""
 <div style="text-align: center; margin-bottom: 1rem;">
     <div style="display: inline-block; background-color: white; padding: 10px 20px; border-radius: 10px;">
-        <img src="https://codermish.github.io/finance/cpe-logo.jpg" width="200">
+        <img src="https://codermish.github.io/finance/cpe-logo.jpg" width="150">
     </div>
 </div>
 
