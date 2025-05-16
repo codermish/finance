@@ -66,7 +66,7 @@ st.markdown("""
     <img src="https://codermish.github.io/finance/cpe-logo.jpg" width="150">
 </div>
         <div class="banner-title"  style="margin-top: 10px;">
-        Financial Forecast Dashboard
+     
            <h1 class="banner-title"  style="margin-top: 10px;">
         Financial Forecast Dashboard</h1>
         
