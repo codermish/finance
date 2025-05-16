@@ -307,19 +307,20 @@ with tabs[2]:
     - `Carried Over = Cumulative Net`
     - `Net Margin % = (Net ÷ Revenue) × 100`
     """)
-    st.subheader("💰 Cost Breakdown")
-    fig = px.bar(cost_df, x='Term', y=['Faculty', 'TA', 'Course Dev', 'Variable OH', 'Fixed OH', 'CAC'], barmode='stack', title="Cost Components", hover_name='Term', color_discrete_sequence=px.colors.qualitative.Set3)
-    fig.update_layout(transition=dict(duration=500, easing='cubic-in-out'))
-    st.plotly_chart(fig, use_container_width=True)
-    st.dataframe(cost_df.style.format({
-    "Faculty": "$ {:,.2f}",
-    "TA": "$ {:,.2f}",
-    "Course Dev": "$ {:,.2f}",
-    "Variable OH": "$ {:,.2f}",
-    "Fixed OH": "$ {:,.2f}",
-    "CAC": "$ {:,.2f}",
-    "Total Cost": "$ {:,.2f}"
-     }).background_gradient(cmap='Blues'))
+     
+st.subheader("💰 Cost Breakdown")
+fig = px.bar(cost_df, x='Term', y=['Faculty', 'TA', 'Course Dev', 'Variable OH', 'Fixed OH', 'CAC'], barmode='stack', title="Cost Components", hover_name='Term', color_discrete_sequence=px.colors.qualitative.Set3)
+fig.update_layout(transition=dict(duration=500, easing='cubic-in-out'))
+st.plotly_chart(fig, use_container_width=True)
+st.dataframe(cost_df.style.format({
+"Faculty": "$ {:,.2f}",
+"TA": "$ {:,.2f}",
+"Course Dev": "$ {:,.2f}",
+"Variable OH": "$ {:,.2f}",
+"Fixed OH": "$ {:,.2f}",
+"CAC": "$ {:,.2f}",
+"Total Cost": "$ {:,.2f}"
+}).background_gradient(cmap='Blues'))
  
 
 with tabs[3]:
