@@ -1,6 +1,3 @@
-<div style="background-color: white; padding: 10px 20px; border-radius: 10px; width: fit-content;">
-    <img src="https://codermish.github.io/finance/cpe-logo.jpg" width="150">
-</div>
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -62,9 +59,9 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.markdown("""
-<div class="banner" style="text-align: left;">
-   
 
+
+<div class="banner" >
  <div style="background-color: white; padding: 10px 20px; border-radius: 10px; width: fit-content;">
     <img src="https://codermish.github.io/finance/cpe-logo.jpg" width="150">
 </div>
@@ -72,6 +69,7 @@ st.markdown("""
     <h1 class="banner-title" style="margin-top: 10px;">Financial Forecast Dashboard</h1>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 # ---------------------- Sidebar Inputs ----------------------
