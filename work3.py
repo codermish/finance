@@ -276,16 +276,38 @@ with tabs[1]:
 
 with tabs[2]:
     with st.expander("🧮 Formula Notes"):
-        st.markdown("""
-        **Cost Formulas:**
-        - Faculty = (Students ÷ Credits per Course) × Faculty $ per section
-        - TA = ceil(Students ÷ TA Ratio) × Hourly Rate × Weekly Hours × Term Weeks
-        - Course Dev = $50,000 if applicable
-        - Variable OH = Students × Variable Overhead $
-        - Fixed OH = $50,000 (fixed)
-        - CAC = New Students × CAC $
-        - With Inflation = Total Cost × (1 + inflation)^year_index
-        """)
+        with st.expander("🧮 Formula Notes"):
+    st.markdown("""
+    ### 🧾 Cost Calculation Formulas
+
+    **Faculty Cost:**
+    - `Faculty = Total Courses × Faculty Cost per Section`
+    - Faculty cost is fixed per course per term regardless of enrollment
+
+    **TA Cost:**
+    - `TA = ceil(Students ÷ TA:Student Ratio) × TA Hourly Rate × TA Hours/Week × Weeks/Term`
+
+    **Course Development Cost:**
+    - `Fall-1: Course Dev = $50,000 × Total Courses ÷ 2`
+    - `Later Terms: Course Dev = 20% of Fall-1 Course Dev`
+
+    **Overheads:**
+    - `Variable Overhead = Students × Variable Overhead per Student`
+    - `Fixed Overhead = $50,000` (constant per term)
+
+    **Customer Acquisition Cost (CAC):**
+    - `CAC = New Students × CAC per Student`
+
+    **Inflated Cost:**
+    - `With Inflation = Total Cost × (1 + inflation) ^ year_index`
+    - Inflation applied semi-annually (every 2 terms)
+
+    ---
+    **Net Summary:**
+    - `Net = Revenue - Inflated Cost`
+    - `Carried Over = Cumulative Net`
+    - `Net Margin % = (Net ÷ Revenue) × 100`
+    """)
     st.subheader("💰 Cost Breakdown")
     fig = px.bar(cost_df, x='Term', y=['Faculty', 'TA', 'Course Dev', 'Variable OH', 'Fixed OH', 'CAC'], barmode='stack', title="Cost Components", hover_name='Term', color_discrete_sequence=px.colors.qualitative.Set3)
     fig.update_layout(transition=dict(duration=500, easing='cubic-in-out'))
