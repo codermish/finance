@@ -64,17 +64,11 @@ st.markdown("""
 <div class="banner" >
  <div style="background-color: white; padding: 10px 20px; border-radius: 10px; width: fit-content;">
     <img src="https://codermish.github.io/finance/cpe-logo.jpg" width="150">
-</div>
-        <div class="banner-title"  style="margin-top: 10px;">
-     
-           <h1 class="banner-title"  style="margin-top: 10px;">
-        Financial Forecast Dashboard</h1>
-        
+ </div>
+<div class="banner-title"  style="margin-top: 10px;">
+    <h1 class="banner-title"  style="margin-top: 10px;">Financial Forecast Dashboard</h1>  
         </div>
-
-     
-
-</div>
+ </div>
 """, unsafe_allow_html=True)
 
 
