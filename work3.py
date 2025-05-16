@@ -275,7 +275,7 @@ with tabs[1]:
     
 
 with tabs[2]:
-    with st.expander("🧮 Formula Notes"):
+ with st.expander("🧮 Formula Notes"):
     st.markdown("""
     ### 🧾 Cost Calculation Formulas
 
